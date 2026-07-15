@@ -114,6 +114,20 @@
           "auth"
         ]
       }
+    },
+    "/payments/charge": {
+      "post": {
+        "operationId": "PaymentsController_charge",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Payments"
+        ]
+      }
     }
   },
   "info": {

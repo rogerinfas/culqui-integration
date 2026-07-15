@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-provider";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
         <QueryProvider>
           {children}
         </QueryProvider>
+        <Script src="https://checkout.culqi.com/js/v4" strategy="beforeInteractive" />
       </body>
     </html>
   );

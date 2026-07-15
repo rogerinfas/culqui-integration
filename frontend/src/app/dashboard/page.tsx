@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { CulqiCheckout } from '@/components/CulqiCheckout';
 
 export default function DashboardPage() {
   const router = useRouter();
@@ -54,10 +55,18 @@ export default function DashboardPage() {
           {isLoadingProfile ? (
             <p className="text-neutral-500">Cargando perfil...</p>
           ) : profile ? (
-            <div className="space-y-1">
-              <p><strong>Nombre:</strong> {profile.name || 'N/A'}</p>
-              <p><strong>Correo electrónico:</strong> {profile.email}</p>
-              <p><strong>ID de usuario:</strong> {profile.id}</p>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <p><strong>Nombre:</strong> {profile.name || 'N/A'}</p>
+                <p><strong>Correo electrónico:</strong> {profile.email}</p>
+                <p><strong>ID de usuario:</strong> {profile.id}</p>
+              </div>
+              
+              <div className="pt-4 border-t border-neutral-200">
+                <h3 className="font-semibold mb-2">Pasarela de Pagos (Prueba)</h3>
+                <p className="text-sm text-neutral-500 mb-4">Realiza un pago de prueba de S/ 10.00 usando Culqi.</p>
+                <CulqiCheckout amount={1000} email={profile.email} userId={profile.id} />
+              </div>
             </div>
           ) : null}
         </CardContent>
