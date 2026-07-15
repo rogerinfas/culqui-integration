@@ -42,22 +42,22 @@ export default function DashboardPage() {
   return (
     <div className="max-w-4xl mx-auto p-8 space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
-        <Button variant="outline" onClick={logout}>Sign out</Button>
+        <h1 className="text-3xl font-bold tracking-tight">Panel principal</h1>
+        <Button variant="outline" onClick={logout}>Cerrar sesión</Button>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Your Profile</CardTitle>
+          <CardTitle>Tu Perfil</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoadingProfile ? (
-            <p className="text-neutral-500">Loading profile...</p>
+            <p className="text-neutral-500">Cargando perfil...</p>
           ) : profile ? (
             <div className="space-y-1">
-              <p><strong>Name:</strong> {profile.name || 'N/A'}</p>
-              <p><strong>Email:</strong> {profile.email}</p>
-              <p><strong>User ID:</strong> {profile.id}</p>
+              <p><strong>Nombre:</strong> {profile.name || 'N/A'}</p>
+              <p><strong>Correo electrónico:</strong> {profile.email}</p>
+              <p><strong>ID de usuario:</strong> {profile.id}</p>
             </div>
           ) : null}
         </CardContent>
@@ -65,27 +65,27 @@ export default function DashboardPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Registered Users</CardTitle>
+          <CardTitle>Usuarios Registrados</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoadingUsers ? (
-            <p className="text-neutral-500">Loading users...</p>
+            <p className="text-neutral-500">Cargando usuarios...</p>
           ) : users && users.length > 0 ? (
             <div className="border rounded-md divide-y">
               {users.map((u: any) => (
                 <div key={u.id} className="p-4 flex items-center justify-between">
                   <div>
-                    <p className="font-medium">{u.name || 'No name'}</p>
+                    <p className="font-medium">{u.name || 'Sin nombre'}</p>
                     <p className="text-sm text-neutral-500">{u.email}</p>
                   </div>
                   <div className="text-sm text-neutral-400">
-                    Joined: {new Date(u.createdAt).toLocaleDateString()}
+                    Se unió el: {new Date(u.createdAt).toLocaleDateString()}
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <p className="text-neutral-500">No users found.</p>
+            <p className="text-neutral-500">No se encontraron usuarios.</p>
           )}
         </CardContent>
       </Card>

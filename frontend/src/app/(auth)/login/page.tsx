@@ -33,7 +33,7 @@ export default function LoginPage() {
       }
     } catch (error) {
       console.error(error);
-      alert('Login failed. Please check your credentials.');
+      alert('Inicio de sesión fallido. Verifica tus credenciales.');
     }
   };
 
@@ -41,8 +41,8 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-[80vh]">
       <Card className="w-[400px]">
         <CardHeader>
-          <CardTitle>Welcome back</CardTitle>
-          <CardDescription>Enter your credentials to access your account</CardDescription>
+          <CardTitle>Bienvenido de nuevo</CardTitle>
+          <CardDescription>Ingresa tus credenciales para acceder a tu cuenta</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -52,7 +52,7 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Correo electrónico</FormLabel>
                     <FormControl>
                       <Input placeholder="name@example.com" {...field} />
                     </FormControl>
@@ -65,7 +65,7 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Contraseña</FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="••••••••" {...field} />
                     </FormControl>
@@ -74,16 +74,16 @@ export default function LoginPage() {
                 )}
               />
               <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? 'Signing in...' : 'Sign in'}
+                {isPending ? 'Iniciando sesión...' : 'Iniciar sesión'}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-neutral-500">
-            Don't have an account?{' '}
+            ¿No tienes una cuenta?{' '}
             <Link href="/register" className="text-neutral-900 font-medium hover:underline">
-              Sign up
+              Regístrate
             </Link>
           </p>
         </CardFooter>

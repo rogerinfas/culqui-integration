@@ -33,7 +33,7 @@ export default function RegisterPage() {
       }
     } catch (error) {
       console.error(error);
-      alert('Registration failed. Try a different email.');
+      alert('Registro fallido. Intenta con un correo diferente.');
     }
   };
 
@@ -41,8 +41,8 @@ export default function RegisterPage() {
     <div className="flex items-center justify-center min-h-[80vh]">
       <Card className="w-[400px]">
         <CardHeader>
-          <CardTitle>Create an account</CardTitle>
-          <CardDescription>Enter your details below to get started</CardDescription>
+          <CardTitle>Crear una cuenta</CardTitle>
+          <CardDescription>Ingresa tus datos a continuación para comenzar</CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
@@ -52,9 +52,9 @@ export default function RegisterPage() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel>Nombre</FormLabel>
                     <FormControl>
-                      <Input placeholder="John Doe" {...field} />
+                      <Input placeholder="Juan Pérez" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -65,7 +65,7 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Correo electrónico</FormLabel>
                     <FormControl>
                       <Input placeholder="name@example.com" {...field} />
                     </FormControl>
@@ -78,7 +78,7 @@ export default function RegisterPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Contraseña</FormLabel>
                     <FormControl>
                       <Input type="password" placeholder="••••••••" {...field} />
                     </FormControl>
@@ -87,16 +87,16 @@ export default function RegisterPage() {
                 )}
               />
               <Button type="submit" className="w-full" disabled={isPending}>
-                {isPending ? 'Creating account...' : 'Sign up'}
+                {isPending ? 'Creando cuenta...' : 'Registrarse'}
               </Button>
             </form>
           </Form>
         </CardContent>
         <CardFooter className="flex justify-center">
           <p className="text-sm text-neutral-500">
-            Already have an account?{' '}
+            ¿Ya tienes una cuenta?{' '}
             <Link href="/login" className="text-neutral-900 font-medium hover:underline">
-              Sign in
+              Inicia sesión
             </Link>
           </p>
         </CardFooter>
