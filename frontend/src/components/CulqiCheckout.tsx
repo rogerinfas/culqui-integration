@@ -3,6 +3,15 @@
 import { useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { Button } from './ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from './ui/alert-dialog';
 
 // Extender el objeto global Window para TypeScript
 declare global {
@@ -20,6 +29,15 @@ interface CulqiCheckoutProps {
 
 export function CulqiCheckout({ amount, email, userId }: CulqiCheckoutProps) {
   const [isReady, setIsReady] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState('');
+  const [dialogDescription, setDialogDescription] = useState('');
+
+  const showDialog = (title: string, description: string) => {
+    setDialogTitle(title);
+    setDialogDescription(description);
+    setDialogOpen(true);
+  };
 
   const processPayment = useMutation({
     mutationFn: async (tokenId: string) => {
@@ -36,18 +54,20 @@ export function CulqiCheckout({ amount, email, userId }: CulqiCheckoutProps) {
         }),
       });
 
+      const data = await response.json().catch(() => ({}));
+
       if (!response.ok) {
-        throw new Error('Error processing payment on backend');
+        throw new Error(data.message || 'Error processing payment on backend');
       }
 
-      return response.json();
+      return data;
     },
     onSuccess: () => {
-      alert('¡Pago procesado con éxito!');
+      showDialog('¡Pago Exitoso!', 'El pago de prueba se ha procesado correctamente.');
     },
     onError: (error) => {
       console.error(error);
-      alert('Hubo un error procesando el pago.');
+      showDialog('Error en el pago', error.message);
     },
   });
 
@@ -85,11 +105,18 @@ export function CulqiCheckout({ amount, email, userId }: CulqiCheckoutProps) {
       if (window.Culqi.token) {
         const token = window.Culqi.token.id;
         console.log('Token obtenido: ', token);
-        // Procesar pago en el backend
+        
+        // 1. Cerramos el modal de Culqi para que no tape nada
+        if (window.Culqi.close) {
+          window.Culqi.close();
+        }
+
+        // 2. Procesar pago en el backend (Mostrará nuestro Dialog)
         processPayment.mutate(token);
       } else {
-        console.log('Error de Culqi: ', window.Culqi.error);
-        alert(window.Culqi.error.user_message);
+        // Culqi ya muestra sus propios errores en rojo dentro de su modal (ej. tarjeta inválida)
+        // por lo que no es necesario lanzar otro Dialog encima que ensucie la pantalla.
+        console.log('Error nativo de Culqi: ', window.Culqi.error);
       }
     };
 
@@ -102,16 +129,32 @@ export function CulqiCheckout({ amount, email, userId }: CulqiCheckoutProps) {
     if (isReady && window.Culqi) {
       window.Culqi.open();
     } else {
-      alert('Culqi no está listo aún. Intenta en un momento.');
+      showDialog('Atención', 'Culqi no está listo aún. Intenta en un momento.');
     }
   };
 
   return (
-    <Button 
-      onClick={openCheckout}
-      disabled={!isReady || processPayment.isPending}
-    >
-      {processPayment.isPending ? 'Procesando...' : `Pagar S/ ${(amount / 100).toFixed(2)}`}
-    </Button>
+    <>
+      <Button 
+        onClick={openCheckout}
+        disabled={!isReady || processPayment.isPending}
+      >
+        {processPayment.isPending ? 'Procesando...' : `Pagar S/ ${(amount / 100).toFixed(2)}`}
+      </Button>
+
+      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {dialogDescription}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={() => setDialogOpen(false)}>Aceptar</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
