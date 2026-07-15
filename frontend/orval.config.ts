@@ -9,7 +9,6 @@ export default defineConfig({
       schemas: 'src/api/model',
       client: 'react-query',
       mock: false,
-      prettier: true,
       override: {
         mutator: {
           path: 'src/api/mutator/custom-instance.ts',
@@ -27,7 +26,6 @@ export default defineConfig({
       mode: 'split',
       client: 'zod',
       target: 'src/api/zod/api.zod.ts',
-      prettier: true,
     },
   },
 });
