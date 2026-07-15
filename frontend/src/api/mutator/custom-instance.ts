@@ -12,21 +12,20 @@ AXIOS_INSTANCE.interceptors.request.use((config) => {
   return config;
 });
 
-export const customInstance = <T>(
-  config: AxiosRequestConfig,
-  options?: AxiosRequestConfig,
+export const customInstance = async <T>(
+  url: string,
+  options?: RequestInit,
 ): Promise<T> => {
-  const source = Axios.CancelToken.source();
-  const promise = AXIOS_INSTANCE({
-    ...config,
-    ...options,
-    cancelToken: source.token,
-  }).then(({ data }) => data);
+  const method = options?.method || 'GET';
+  const headers = options?.headers as any;
+  const data = options?.body ? JSON.parse(options.body as string) : undefined;
 
-  // @ts-ignore
-  promise.cancel = () => {
-    source.cancel('Query was cancelled');
-  };
+  const promise = AXIOS_INSTANCE({
+    url,
+    method,
+    headers,
+    data,
+  }).then(({ data }) => data);
 
   return promise;
 };
